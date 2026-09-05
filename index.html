@@ -1,1 +1,222 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Demo Quotation</title><link rel="stylesheet" href="style.css"></head><body><main class="app"><header><h1>PROFORMA INVOICE</h1><div class="dealer">MAHALAXMI AUTOMOTIVES PVT. LTD.</div></header><section class="card"><div class="grid"><label>NAME<input id="name" placeholder="Customer name"></label><label>DATE<input id="date" type="date"></label><label>ADDRESS<input id="address" placeholder="Address"></label><label>MOBILE<input id="mobile" inputmode="tel" placeholder="Mobile number"></label></div><label>MODEL &amp; VARIANT<select id="model"><option value="">Select model</option></select></label><div class="grid"><label>PRICE TYPE<select id="priceType"><option>INDIVIDUAL</option><option>CSD AMOUNT</option></select></label><label>PASSING<select id="passing"><option>MH PASSING</option><option>BH PASSING</option></select></label></div></section><section id="quotation" class="quote"><div class="quote-title">PARTICULARS <span>PRICE</span></div><div id="lines"></div><div class="line total"><b>TOTAL</b><b id="total">₹0</b></div><label>ACCESSORIES<input id="accessories" type="number" value="0"></label><div class="line"><b>DISCOUNT</b><input id="discount" class="money" type="number" value="0"></div><div class="line grand"><b>TOTAL</b><b id="grand">₹0</b></div></section><section class="actions"><button id="generate">GENERATE QUOTATION IMAGE</button><button id="share" disabled>SHARE IMAGE</button></section><p id="status"></p></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>PROFORMA INVOICE</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="page">
+
+  <div id="sheet" class="sheet">
+
+    <img class="header-img" src="header.png" alt="Maruti Suzuki ARENA">
+
+    <div class="title">PROFORMA INVOICE</div>
+
+    <div class="customer-area">
+      <div class="customer-lines">
+
+        <div class="cust-row">
+          <b>NAME</b><span>:</span>
+          <input id="customer" type="text">
+        </div>
+
+        <div class="cust-row">
+          <b>ADDRESS</b><span>:</span>
+          <input id="address" type="text">
+        </div>
+
+        <div class="cust-row">
+          <b>Mobile No.</b><span>:</span>
+          <input id="mobile" type="tel">
+        </div>
+
+      </div>
+
+      <div class="date-area">
+        <b>Date</b>
+        <input id="date" type="date">
+      </div>
+    </div>
+
+    <div class="model-row">
+      <div class="model-label">MODEL &amp; VARIENT:-</div>
+      <select id="model"></select>
+    </div>
+
+    <div class="quote-table">
+
+      <div class="tcell th part">PARTICULARS</div>
+      <div class="tcell th modehead"></div>
+      <div class="tcell th pricehead">Price</div>
+
+      <div class="tcell part">EX-SHOWROOM PRICE</div>
+      <div class="tcell">
+        <select id="priceType">
+          <option>INDIVIDUAL</option>
+          <option>CSD AMOUNT</option>
+        </select>
+      </div>
+      <div class="tcell price">
+        <input id="ex" type="number">
+      </div>
+
+      <div class="tcell part" id="insLabel">
+        INSURANCE 1+3 (APPROX)
+      </div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="ins" type="number">
+      </div>
+
+      <div class="tcell part">RTO TAX</div>
+      <div class="tcell">
+        <select id="passing">
+          <option>MH PASSING</option>
+          <option>BH PASSING</option>
+        </select>
+      </div>
+      <div class="tcell price">
+        <input id="rto" type="number">
+      </div>
+
+      <div class="tcell part" id="regLabel">
+        REGISTRATION FEES
+      </div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="reg" type="number">
+      </div>
+
+      <div class="tcell part">
+        MSP+ (6 YEAR WARRANTY + CCP)
+      </div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="msp" type="number">
+      </div>
+
+      <div class="tcell part">SMP</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="smp" type="number">
+      </div>
+
+      <div class="tcell part">FASTAG</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="fastag" type="number">
+      </div>
+
+      <div class="tcell part">
+        HSRP + NUMBER PLATE GARNISH
+      </div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="hsrp" type="number">
+      </div>
+
+      <div class="tcell part">AUTO CARD</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="auto" type="number">
+      </div>
+
+      <div class="tcell part">TCS</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="tcs" type="number">
+      </div>
+
+      <div class="tcell part">ACCESSORIES</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="accessories" type="number" value="0">
+      </div>
+
+      <div class="tcell total part">TOTAL</div>
+      <div class="tcell total"></div>
+      <div class="tcell total price" id="total">0</div>
+
+      <div class="tcell part">DISCOUNT</div>
+      <div class="tcell"></div>
+      <div class="tcell price">
+        <input id="discount" type="number" value="0">
+      </div>
+
+      <div class="tcell total part">TOTAL</div>
+      <div class="tcell total"></div>
+      <div class="tcell total price" id="final">0</div>
+
+    </div>
+
+    <div class="payment">MODE OF PAYMENT:</div>
+
+    <div class="account">
+
+      <b>ACCOUNT DEATAILS:</b>
+
+      <div>
+        <b>NAME</b>
+        <span>: Mahalaxmi Automotives PVT.LTD.</span>
+      </div>
+
+      <div>
+        <b>BANK NAME</b>
+        <span>: HDFC Bank LTD</span>
+      </div>
+
+      <div>
+        <b>ACCOUNT NO</b>
+        <span>: 01032560004762</span>
+      </div>
+
+      <div>
+        <b>BRANCH</b>
+        <span>: FC Road Pune</span>
+      </div>
+
+      <div>
+        <b>IFSC CODE</b>
+        <span>: HDFC0000103</span>
+      </div>
+
+      <div>
+        <b>DEALER GSTIN</b>
+        <span>: 27AADCM7379Q1ZI</span>
+      </div>
+
+    </div>
+
+    <div class="footer-text">
+      <div>Thanking you</div>
+      <div>Yours Truly</div>
+      <div class="red">VISHAL BORAWANE</div>
+      <div class="blue">9604991203</div>
+      <div>For MAHALAXMI AUTOMOTIVES PVT.LTD.</div>
+    </div>
+
+    <img class="stamp" src="stamp.png" alt="stamp">
+
+    <div class="address-footer">
+      Showroom No, 101,102, Sunit capital Society Kanchanban Society,
+      SB Road, Shivajinagar, Pune-411016
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <button id="generate">GENERATE QUOTATION IMAGE</button>
+    <button id="share" disabled>SHARE IMAGE</button>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
